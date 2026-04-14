@@ -88,9 +88,19 @@ DATABASES = {
     }
 }
 
+# ── DATABASE_URL override (Render/Heroku/Railway) ─────────────
+import dj_database_url as _dj_db
+_database_url = os.environ.get('DATABASE_URL', '')
+if _database_url:
+    DATABASES['default'] = _dj_db.config(
+        default=_database_url,
+        conn_max_age=600,
+        conn_health_checks=True,
+    )
+
 # ── PostgreSQL override (set DB_ENGINE=django.db.backends.postgresql in .env) ──
 _db_engine = config('DB_ENGINE', default='')
-if _db_engine == 'django.db.backends.postgresql':
+if _db_engine == 'django.db.backends.postgresql' and not _database_url:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
