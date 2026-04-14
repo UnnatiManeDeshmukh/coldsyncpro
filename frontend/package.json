@@ -11,7 +11,6 @@
     "test:e2e:ui": "playwright test --ui"
   },
   "dependencies": {
-    "@esbuild/win32-x64": "^0.21.5",
     "axios": "^1.6.2",
     "chart.js": "^4.4.0",
     "i18next": "^23.7.6",
