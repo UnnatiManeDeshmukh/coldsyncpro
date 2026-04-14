@@ -1,0 +1,41 @@
+# ── Stage 1: Build React frontend ────────────────────────────
+FROM node:20-alpine AS frontend-build
+WORKDIR /app/frontend
+COPY frontend/package*.json ./
+RUN npm ci --silent
+COPY frontend/ ./
+RUN npm run build
+
+# ── Stage 2: Python backend ───────────────────────────────────
+FROM python:3.11-slim AS backend
+
+# System deps
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    libpq-dev gcc curl \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /app
+
+# Python deps
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy project
+COPY . .
+
+# Copy built frontend from stage 1 — keep in frontend/dist for nginx SPA serving
+COPY --from=frontend-build /app/frontend/dist ./frontend/dist
+
+# Create required dirs
+RUN mkdir -p logs media staticfiles
+
+# Collect static files
+RUN python manage.py collectstatic --noinput --clear 2>/dev/null || true
+
+# Non-root user for security
+RUN useradd -m -u 1000 coldsync && chown -R coldsync:coldsync /app
+USER coldsync
+
+EXPOSE 8000
+
+CMD ["gunicorn", "coldsync.wsgi:application", "--config", "gunicorn.conf.py"]
