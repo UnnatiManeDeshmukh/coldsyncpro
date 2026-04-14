@@ -43,10 +43,10 @@ export default defineConfig({
           },
           {
             urlPattern: /^https?:\/\/.*\/api\/analytics\/.*/i,
-            handler: 'StaleWhileRevalidate',
+            handler: 'NetworkFirst',
             options: {
               cacheName: 'api-analytics',
-              expiration: { maxEntries: 20, maxAgeSeconds: 60 * 10 }, // 10 min
+              expiration: { maxEntries: 20, maxAgeSeconds: 60 * 10 },
               networkTimeoutSeconds: 8,
             },
           },
