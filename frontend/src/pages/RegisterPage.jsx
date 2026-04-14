@@ -108,9 +108,15 @@ export default function RegisterPage() {
     try {
       const { confirm_password, ...payload } = form
       payload.password_confirm = confirm_password
-      await axios.post('/api/customers/register/', payload)
+      const res = await axios.post('/api/customers/register/', payload)
+      // Auto-login after registration
+      if (res.data.tokens) {
+        localStorage.setItem('access', res.data.tokens.access)
+        localStorage.setItem('refresh', res.data.tokens.refresh)
+        localStorage.setItem('role', 'customer')
+      }
       setSuccess(true)
-      setTimeout(() => navigate('/login'), 2500)
+      setTimeout(() => navigate('/customer-dashboard'), 2000)
     } catch (err) {
       const data = err.response?.data
       if (data && typeof data === 'object') {
