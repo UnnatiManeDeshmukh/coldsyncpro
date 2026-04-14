@@ -68,3 +68,11 @@ urlpatterns = [
     path('api/audit/', include('apps.audit.urls')),
     path('api/cart/', include('apps.cart.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+# ── Serve React SPA for all non-API routes ────────────────────
+from django.views.generic import TemplateView
+from django.urls import re_path
+
+urlpatterns += [
+    re_path(r'^(?!api/|static/|media/).*$', TemplateView.as_view(template_name='index.html'), name='spa'),
+]
