@@ -39,4 +39,4 @@ USER coldsync
 EXPOSE 10000
 
 # Render uses PORT env variable — default 10000
-CMD sh -c "python manage.py migrate --noinput && gunicorn coldsync.wsgi:application --bind 0.0.0.0:${PORT:-10000} --workers 2 --threads 2 --timeout 120"
+CMD sh -c "python manage.py migrate --noinput && python manage.py shell -c \"from django.contrib.auth.models import User; User.objects.filter(username='admin').exists() or User.objects.create_superuser('admin', 'admin@coldsync.com', 'Admin@1234')\" && gunicorn coldsync.wsgi:application --bind 0.0.0.0:${PORT:-10000} --workers 2 --threads 2 --timeout 120"
