@@ -37,18 +37,18 @@ class ProductSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError(
                 f"Image too large. Max size is {MAX_IMAGE_SIZE_MB}MB."
             )
-        # Type check
-        content_type = getattr(value, 'content_type', '')
-        if content_type and content_type not in ALLOWED_IMAGE_TYPES:
-            raise serializers.ValidationError(
-                "Invalid image type. Use JPEG, PNG, or WebP."
-            )
         # Extension check
         name = getattr(value, 'name', '')
         ext  = name.rsplit('.', 1)[-1].lower() if '.' in name else ''
         if ext not in {'jpg', 'jpeg', 'png', 'webp'}:
             raise serializers.ValidationError(
-                "Invalid file extension. Use .jpg, .jpeg, .png, or .webp"
+                "Only .jpg, .jpeg, .png, or .webp images are allowed."
+            )
+        # Content-type check (only if provided by browser)
+        content_type = getattr(value, 'content_type', '')
+        if content_type and content_type not in ALLOWED_IMAGE_TYPES:
+            raise serializers.ValidationError(
+                "Only JPEG, PNG, or WebP images are allowed."
             )
         return value
 

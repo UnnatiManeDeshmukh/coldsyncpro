@@ -63,7 +63,7 @@ function ProductModal({ item, onClose, onSaved }) {
       onSaved(item?.id ? '✅ Product updated' : '✅ Product added')
     } catch (err) {
       const d = err.response?.data
-      const msg = d?.detail || d?.bottle_size?.[0] || d?.product_name?.[0] || JSON.stringify(d) || 'Failed'
+      const msg = d?.detail || d?.image?.[0] || d?.bottle_size?.[0] || d?.product_name?.[0] || JSON.stringify(d) || 'Failed'
       onSaved('❌ ' + msg, true)
     } finally {
       setSaving(false)
