@@ -25,6 +25,13 @@ function ProductModal({ item, onClose, onSaved }) {
   const handleImage = (e) => {
     const file = e.target.files[0]
     if (!file) return
+    const allowed = ['image/jpeg', 'image/png', 'image/webp']
+    if (!allowed.includes(file.type)) {
+      setErrs(p => ({ ...p, img: 'Only JPG, PNG, or WebP images are allowed.' }))
+      e.target.value = ''
+      return
+    }
+    setErrs(p => ({ ...p, img: '' }))
     setImgFile(file)
     setImgPreview(URL.createObjectURL(file))
   }
@@ -116,12 +123,13 @@ function ProductModal({ item, onClose, onSaved }) {
                 ? <img src={imgPreview} alt="preview" className="h-20 object-contain rounded-xl p-1" />
                 : <div className="flex flex-col items-center py-3 gap-1"><span className="text-2xl">📷</span><span className="text-white/40 text-xs">Click to upload image</span></div>
               }
-              <input type="file" accept="image/*" className="hidden" onChange={handleImage} />
+              <input type="file" accept="image/jpeg,image/png,image/webp" className="hidden" onChange={handleImage} />
             </label>
             {imgPreview && (
               <button onClick={() => { setImgFile(null); setImgPreview(null) }}
                 className="text-red-400/60 hover:text-red-400 text-xs mt-1">✕ Remove image</button>
             )}
+            {errs.img && <p className="text-red-400 text-xs mt-1">⚠ {errs.img}</p>}
           </div>
           <button onClick={handleSave} disabled={saving}
             className="w-full py-2.5 rounded-xl text-white text-sm font-bold hover:opacity-90 disabled:opacity-50"
