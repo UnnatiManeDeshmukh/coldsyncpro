@@ -52,6 +52,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -132,10 +133,14 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 # Only include frontend/dist/assets if it exists (requires `npm run build` first)
 _frontend_assets = BASE_DIR / 'frontend' / 'dist' / 'assets'
+_frontend_dist = BASE_DIR / 'frontend' / 'dist'
 STATICFILES_DIRS = [
     BASE_DIR / 'coldsync' / 'static',
     *([_frontend_assets] if _frontend_assets.exists() else []),
 ]
+
+# Serve frontend dist files directly
+WHITENOISE_ROOT = str(_frontend_dist) if _frontend_dist.exists() else None
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
