@@ -171,7 +171,26 @@ export default function AdminSuppliers() {
       showToast('✅ Purchase Order created')
       setModal(null); load()
     } catch (err) {
-      showToast('❌ ' + (err.response?.data?.detail || JSON.stringify(err.response?.data) || 'Failed'))
+      const d = err.response?.data
+      let msg = 'Failed'
+      if (d) {
+        if (d.detail) msg = d.detail
+        else if (d.non_field_errors) msg = d.non_field_errors[0]
+        else if (d.items) {
+          // items is array of per-item errors
+          const itemErr = Array.isArray(d.items)
+            ? d.items.map((e, i) => {
+                if (!e || typeof e !== 'object') return null
+                return Object.values(e).flat().join(', ')
+              }).filter(Boolean).join(' | ')
+            : JSON.stringify(d.items)
+          msg = itemErr || 'Item validation failed'
+        } else {
+          const first = Object.entries(d)[0]
+          if (first) msg = `${first[0]}: ${Array.isArray(first[1]) ? first[1][0] : first[1]}`
+        }
+      }
+      showToast('❌ ' + msg)
     }
     setSaving(false)
   }
