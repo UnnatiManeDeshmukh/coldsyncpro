@@ -85,7 +85,7 @@ _HOME_HTML = """<!DOCTYPE html>
       <h2>🚀 Quick Links</h2>
       <div class="links">
         <a href="/admin/" class="btn">Admin Panel</a>
-        <a href="http://localhost:3000/" class="btn btn-sec" target="_blank">Frontend App</a>
+        <a href="https://coldsync-backend.onrender.com/" class="btn btn-sec" target="_blank">Frontend App</a>
         <a href="/api/health/" class="btn btn-sec">Health Check</a>
       </div>
     </div>
@@ -109,7 +109,7 @@ def api_info(request):
         "framework": "Django REST Framework",
         "authentication": "JWT",
         "database": "SQLite",
-        "frontend_url": "http://localhost:3000/",
+        "frontend_url": "https://coldsync-backend.onrender.com/",
         "admin_url": "/admin/",
     }, json_dumps_params={'indent': 2})
 
