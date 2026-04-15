@@ -166,7 +166,7 @@ TWILIO_ACCOUNT_SID = config('TWILIO_ACCOUNT_SID', default='')
 TWILIO_AUTH_TOKEN  = config('TWILIO_AUTH_TOKEN', default='')
 TWILIO_WHATSAPP_FROM = config('TWILIO_WHATSAPP_FROM', default='whatsapp:+14155238886')
 TWILIO_SMS_FROM    = config('TWILIO_SMS_FROM', default='')
-AGENCY_WHATSAPP_NUMBER = config('AGENCY_WHATSAPP_NUMBER', default='')
+AGENCY_WHATSAPP_NUMBER = config('AGENCY_WHATSAPP_NUMBER', default='+91 8329412277')
 FAST2SMS_API_KEY = config('FAST2SMS_API_KEY', default='')
 
 # ── AI Chatbot (Groq) ─────────────────────────────────────────
