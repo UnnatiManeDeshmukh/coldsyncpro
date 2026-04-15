@@ -1,8 +1,7 @@
 from rest_framework import serializers
 from .models import Product
 
-ALLOWED_IMAGE_TYPES = {'image/jpeg', 'image/png', 'image/webp'}
-MAX_IMAGE_SIZE_MB   = 5
+MAX_IMAGE_SIZE_MB = 5
 
 
 class ProductSerializer(serializers.ModelSerializer):
@@ -32,23 +31,9 @@ class ProductSerializer(serializers.ModelSerializer):
     def validate_image(self, value):
         if value is None:
             return value
-        # Size check
         if value.size > MAX_IMAGE_SIZE_MB * 1024 * 1024:
             raise serializers.ValidationError(
                 f"Image too large. Max size is {MAX_IMAGE_SIZE_MB}MB."
-            )
-        # Extension check
-        name = getattr(value, 'name', '')
-        ext  = name.rsplit('.', 1)[-1].lower() if '.' in name else ''
-        if ext not in {'jpg', 'jpeg', 'png', 'webp'}:
-            raise serializers.ValidationError(
-                "Only .jpg, .jpeg, .png, or .webp images are allowed."
-            )
-        # Content-type check (only if provided by browser)
-        content_type = getattr(value, 'content_type', '')
-        if content_type and content_type not in ALLOWED_IMAGE_TYPES:
-            raise serializers.ValidationError(
-                "Only JPEG, PNG, or WebP images are allowed."
             )
         return value
 
