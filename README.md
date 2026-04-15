@@ -5,7 +5,7 @@ A comprehensive full-stack application for managing cold drink distribution agen
 ## 🎨 New Features
 
 ### Modern Landing Page with Multi-Language Support (v2.0)
-- ✅ **7 Languages Supported**: English, Hindi, Marathi, Spanish, French, German, Chinese
+- ✅ **3 Languages Supported**: English, Hindi, Marathi
 - ✅ **Instant Language Switching**: Click and switch - all content updates immediately
 - ✅ **Fully Interactive Navigation**: Smooth scroll to all sections
 - ✅ **Working Language Selector**: Desktop dropdown & mobile grid layout
