@@ -31,9 +31,9 @@ class CaseInsensitiveTokenView(TokenObtainPairView):
     throttle_classes = [LoginRateThrottle]
 
 urlpatterns = [
-    # Homepage
+    # Homepage — redirect to frontend
     path('', views.home, name='home'),
-    path('api/', views.api_info, name='api_root'),
+    path('api-info/', views.api_info, name='api_root'),
     path('api/info/', views.api_info, name='api_info'),
     path('api/health/', views.health_check, name='health_check'),
     path('api/contact/', views.contact_us, name='contact_us'),

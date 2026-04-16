@@ -98,7 +98,8 @@ _HOME_HTML = """<!DOCTYPE html>
 
 
 def home(request):
-    return HttpResponse(_HOME_HTML)
+    from django.shortcuts import redirect
+    return redirect('/login')
 
 
 def api_info(request):
